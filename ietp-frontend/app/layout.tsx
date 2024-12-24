@@ -1,18 +1,23 @@
-import "./globals.css"; // Tailwind CSS or global styles
-
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import Sidebar from "@/components/Sidebar";
+import  './globals.css';
 
 
 export const metadata = {
-  title: "My Next.js App",
-  description: "A sample app built with Next.js",
+  title: "Your App Title",
+  description: "Your App Description",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="flex flex-col min-h-screen">
-       
-        <div className="flex-grow">{children}</div>
+      <body>
+        
+          <Sidebar />
+          <main>
+            
+            {children}
+          </main>
         
       </body>
     </html>
