@@ -19,23 +19,22 @@ const Sidebar: React.FC = () => {
   };
 
   const busStations = [
-    { name: t('sidebar.megenagna'), eta: "60 " + t('sidebar.min') },
-    { name: t('sidebar.gerji'), eta: "55 " + t('sidebar.min') },
-    { name: t('sidebar.mebrathail'), eta: "50 " + t('sidebar.min') },
-    { name: t('sidebar.jackros'), eta: "45 " + t('sidebar.min') },
-    { name: t('sidebar.goro'), eta: "40 " + t('sidebar.min') },
-    { name: t('sidebar.ict'), eta: "35 " + t('sidebar.min') },
-    { name: t('sidebar.hot'), eta: "30 " + t('sidebar.min') },
-    { name: t('sidebar.gojo'), eta: "25 " + t('sidebar.min') },
-    { name: t('sidebar.koye16'), eta: "20 " + t('sidebar.min') },
-    { name: t('sidebar.koye'), eta: "15 " + t('sidebar.min') },
-    { name: t('sidebar.aastu'), eta: "10 " + t('sidebar.min') },
-    { name: t('sidebar.tulu'), eta: "5 " + t('sidebar.min') },
+    { name: t("sidebar.megenagna"), eta: "60 " + t("sidebar.min") },
+    { name: t("sidebar.gerji"), eta: "55 " + t("sidebar.min") },
+    { name: t("sidebar.mebrathail"), eta: "50 " + t("sidebar.min") },
+    { name: t("sidebar.jackros"), eta: "45 " + t("sidebar.min") },
+    { name: t("sidebar.goro"), eta: "40 " + t("sidebar.min") },
+    { name: t("sidebar.ict"), eta: "35 " + t("sidebar.min") },
+    { name: t("sidebar.hot"), eta: "30 " + t("sidebar.min") },
+    { name: t("sidebar.gojo"), eta: "25 " + t("sidebar.min") },
+    { name: t("sidebar.koye16"), eta: "20 " + t("sidebar.min") },
+    { name: t("sidebar.koye"), eta: "15 " + t("sidebar.min") },
+    { name: t("sidebar.aastu"), eta: "10 " + t("sidebar.min") },
+    { name: t("sidebar.tulu"), eta: "5 " + t("sidebar.min") },
   ];
-  
 
   return (
-    <div className="relative h-screen">
+    <div className="absolute top-0 left-0 z-10 h-full">
       {/* Toggle Button */}
       <button
         onClick={toggleSidebar}

@@ -1,11 +1,13 @@
 "use client";
-
 import { useState, useEffect } from "react";
 
 export default function ProfilePage() {
   const [tracking, setTracking] = useState(false);
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [locationAllowed, setLocationAllowed] = useState(false);
+  const [currentLocation, setCurrentLocation] =
+    useState<GeolocationCoordinates | null>(null);
+  const [watchId, setWatchId] = useState<number | null>(null);
 
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;
@@ -20,28 +22,56 @@ export default function ProfilePage() {
       if (timer) {
         clearInterval(timer);
       }
+      if (watchId) {
+        navigator.geolocation.clearWatch(watchId);
+      }
     };
-  }, [tracking]);
+  }, [tracking, watchId]);
 
-  const handleStartTracking = async () => {
-    // Request location permission
-    try {
-      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject);
-      });
-
-      console.log("User's location:", position.coords);
-      setLocationAllowed(true);
-      setTracking(true);
-    } catch (error) {
-      alert("Location permission denied. Please allow location to start tracking.");
-      setLocationAllowed(false);
+  const handleStartTracking = () => {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser.");
+      return;
     }
+
+    const id = navigator.geolocation.watchPosition(
+      (position) => {
+        setCurrentLocation(position.coords);
+        setLocationAllowed(true);
+      },
+      (error) => {
+        console.error("Error obtaining location:", error);
+        setLocationAllowed(false);
+
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            alert("Please enable location services in your browser settings.");
+            break;
+          case error.POSITION_UNAVAILABLE:
+            alert("Location information is unavailable.");
+            break;
+          case error.TIMEOUT:
+            alert("Location request timed out. Please try again.");
+            break;
+          default:
+            alert("An unknown error occurred.");
+        }
+      },
+      { enableHighAccuracy: true }
+    );
+
+    setWatchId(id);
+    setTracking(true);
   };
 
   const handleStopTracking = () => {
+    if (watchId) {
+      navigator.geolocation.clearWatch(watchId);
+      setWatchId(null);
+    }
     setTracking(false);
-    setTimeElapsed(0); // Reset the timer
+    setTimeElapsed(0);
+    setCurrentLocation(null);
   };
 
   const formatTime = (seconds: number) => {
@@ -49,17 +79,19 @@ export default function ProfilePage() {
     const mins = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
 
-    return `${hrs.toString().padStart(2, "0")}:${mins.toString().padStart(2, "0")}:${secs
+    return `${hrs.toString().padStart(2, "0")}:${mins
       .toString()
-      .padStart(2, "0")}`;
+      .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
       <div className="text-center bg-white p-6 rounded-xl shadow-lg">
-        <h1 className="text-4xl font-bold text-gray-800">Hi, User!</h1>
+        <h1 className="text-4xl font-bold text-gray-800">Hi, Driver!</h1>
         <h2 className="text-lg text-gray-600 mt-4">
-          Please press the button to start tracking
+          {tracking
+            ? "Tracking your location..."
+            : "Press the button to start tracking."}
         </h2>
         <div className="mt-8">
           {!tracking ? (
@@ -71,9 +103,16 @@ export default function ProfilePage() {
             </button>
           ) : (
             <>
-              {locationAllowed && (
+              {locationAllowed && currentLocation && (
                 <div className="bg-green-100 text-green-700 px-4 py-4 rounded-lg mt-6 shadow-xl">
-                  Your location is monitored.
+                  <p>Your location is being monitored.</p>
+                  <p>
+                    Current Position:{" "}
+                    <span className="font-mono">
+                      {currentLocation.latitude.toFixed(6)},{" "}
+                      {currentLocation.longitude.toFixed(6)}
+                    </span>
+                  </p>
                 </div>
               )}
               <div className="text-lg text-gray-800 mt-4">
