@@ -85,9 +85,19 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
-      <div className="text-center bg-white p-6 rounded-xl shadow-lg">
-        <h1 className="text-4xl font-bold text-gray-800">Hi, Driver!</h1>
+    <div
+      className="relative flex flex-col items-center justify-center min-h-screen p-6 bg-cover bg-center"
+      style={{
+        backgroundImage:
+          "url('https://www.bus-planet.com/bus/pictures/Ethiopia/JN/400/B2003-02-002.jpg')",
+      }}
+    >
+      {/* Black overlay */}
+      <div className="absolute inset-0 bg-black opacity-50"></div>
+
+      {/* Content */}
+      <div className="relative text-center bg-white p-6 rounded-xl shadow-lg">
+        <h1 className="text-4xl font-bold text-gray-800">Hi, Yeabsira!</h1>
         <h2 className="text-lg text-gray-600 mt-4">
           {tracking
             ? "Tracking your location..."
@@ -97,7 +107,7 @@ export default function ProfilePage() {
           {!tracking ? (
             <button
               onClick={handleStartTracking}
-              className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+              className="bg-gray-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-gray-700 transition duration-300"
             >
               Start Tracking
             </button>
