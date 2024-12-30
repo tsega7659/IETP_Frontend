@@ -142,7 +142,7 @@ const busStops: BusStop[] = [
   { geocode: [8.93998135, 38.821586869], name: "Gojo Arsema Station" },
   { geocode: [8.915095222, 38.817890789], name: "Koye 16" },
   { geocode: [8.900155311, 38.814859894], name: "Koye Square" },
-  { geocode: [8.884138883, 38.814763338], name: "AASTU" },
+  { geocode: [8.884307661335626, 38.8149464856632], name: "AASTU" },
   { geocode: [8.873422007, 38.819687875], name: "Tulu Dimtu Square" },
 ];
 const Map = () => {
@@ -166,7 +166,7 @@ const Map = () => {
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          // attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         <RoutingMachine busStops={busStops} />
       </MapContainer>
